@@ -248,6 +248,7 @@ start.onclick = function(e) {
 }
 
 function update() {
+    toUpdate = [];
     for (i = 0; i < boxArray.length; i++) {
         for (j = 0; j < boxArray[i].length; j++) {
             neighborCount = 0;
@@ -365,14 +366,17 @@ function update() {
             }
             if (boxArray[i][j].toggled) {
                 if (neighborCount != 2 && neighborCount != 3) {
-                    boxArray[i][j].toggled = false;
+                    toUpdate.push([i, j, false])
                 }
             } else {
                 if (neighborCount == 3) {
-                    boxArray[i][j].toggled = true;
+                    toUpdate.push([i, j, true])
                 }
             }
         }
+    }
+    for (i = 0; i < toUpdate.length; i++) {
+        boxArray[toUpdate[i][0]][toUpdate[i][1]].toggled = toUpdate[i][3];
     }
     requestAnimationFrame(draw);
 }
