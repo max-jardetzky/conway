@@ -11,6 +11,7 @@ var oldMouseX = 0;
 var oldMouseY = 0;
 var mouseHeld = false;
 var boxArray = [];
+var numArray = [];
 var start = document.getElementById("start");
 var onButton = false;
 var started = false;
@@ -71,7 +72,7 @@ window.onmousemove = function(e) {
     if (mouseHeld && !started) {
         for (i = 0; i < boxArray.length; i++) {
             for (j = 0; j < boxArray[i].length; j++) {
-                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton) {
+                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton && !started) {
                     selectedBox = boxArray[i][j];
                     selectedBox.toggled = true;
                     requestAnimationFrame(draw);
@@ -101,7 +102,7 @@ window.onmouseup = function(e) {
     if (!drag) {
         for (i = 0; i < boxArray.length; i++) {
             for (j = 0; j < boxArray[i].length; j++) {
-                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton) {
+                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton && !started) {
                     selectedBox = boxArray[i][j];
                     selectedBox.toggled = !selectedBox.toggled;
                     requestAnimationFrame(draw);
@@ -110,10 +111,6 @@ window.onmouseup = function(e) {
             }
         }
     }
-}
-
-window.onclick = function(e) {
-    
 }
 
 start.onmouseenter = function(e) {
@@ -168,6 +165,7 @@ window.onload = function() {
     down = false;
     while (!down) {
         boxArray.push([]);
+        numArray.push([]);
         rowNum++;
         testDrawY += boxWidth
         if (testDrawY > window.innerHeight + 4*boxWidth) {
@@ -180,6 +178,7 @@ window.onload = function() {
         drawY = -5 * boxWidth;
         for (j = 0; j < rowNum; j++) {
             boxArray[j].push(new Box(drawX, drawY, boxWidth, boxWidth));
+            numArray[j].push(0);
             drawY += boxWidth;
         }
         drawX += boxWidth;
@@ -247,8 +246,32 @@ start.onclick = function(e) {
     }, 500);
 }
 
+function cloneBoxToNum() {
+    for (i = 0; i < boxArray.length; i++) {
+        for (j = 0; j < boxArray[i].length; j++) {
+            if (boxArray[i][j].toggled) {
+                numArray[i][j] = 1;
+            } else {
+                numArray[i][j] = 0;
+            }
+        }
+    }
+}
+
+function cloneNumToBox() {
+    for (i = 0; i < numArray.length; i++) {
+        for (j = 0; j < numArray[i].length; j++) {
+            if (numArray[i][j] == 1) {
+                boxArray[i][j].toggled = true;
+            } else {
+                boxArray[i][j].toggled = false;
+            }
+        }
+    }
+}
+
 function update() {
-    toUpdate = [];
+    cloneBoxToNum();
     for (i = 0; i < boxArray.length; i++) {
         for (j = 0; j < boxArray[i].length; j++) {
             neighborCount = 0;
@@ -366,17 +389,15 @@ function update() {
             }
             if (boxArray[i][j].toggled) {
                 if (neighborCount != 2 && neighborCount != 3) {
-                    toUpdate.push([i, j, false])
+                    numArray[i][j] = 0;
                 }
             } else {
                 if (neighborCount == 3) {
-                    toUpdate.push([i, j, true])
+                    numArray[i][j] = 1;
                 }
             }
         }
     }
-    for (i = 0; i < toUpdate.length; i++) {
-        boxArray[toUpdate[i][0]][toUpdate[i][1]].toggled = toUpdate[i][3];
-    }
+    cloneNumToBox();
     requestAnimationFrame(draw);
 }
