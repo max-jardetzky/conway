@@ -255,7 +255,7 @@ function update() {
             if (i > 0 && j > 0 && i < boxArray.length - 1 && j < boxArray[i].length - 1) {
                 for (k = -1; k < 2; k++) {
                     for (l = -1; l < 2; l++) {
-                        if (!(k == 0 && l && 0)) {
+                        if (!(k == 0 && l == 0)) {
                             if (boxArray[i+k][j+l].toggled) {
                                 neighborCount++;
                             }
@@ -269,7 +269,7 @@ function update() {
                 if (j > 0 && j < boxArray[i].length - 1) {
                     for (k = 0; k < 2; k++) {
                         for (l = -1; l < 2; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -279,7 +279,7 @@ function update() {
                 } else if (j == 0) {
                     for (k = 0; k < 2; k++) {
                         for (l = 0; l < 2; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -289,7 +289,7 @@ function update() {
                 } else {
                     for (k = 0; k < 2; k++) {
                         for (l = -1; l < 1; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -304,7 +304,7 @@ function update() {
                 if (j > 0 && j < boxArray[i].length - 1) {
                     for (k = -1; k < 1; k++) {
                         for (l = -1; l < 2; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -314,7 +314,7 @@ function update() {
                 } else if (j == 0) {
                     for (k = -1; k < 1; k++) {
                         for (l = 0; l < 1; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -324,7 +324,7 @@ function update() {
                 } else {
                     for (k = -1; k < 1; k++) {
                         for (l = -1; l < 1; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -339,7 +339,7 @@ function update() {
                 if (i > 0 && i < boxArray.length - 1) {
                     for (k = -1; k < 2; k++) {
                         for (l = 0; l < 2; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
@@ -354,7 +354,7 @@ function update() {
                 if (i > 0 && i < boxArray.length - 1) {
                     for (k = -1; k < 2; k++) {
                         for (l = -1; l < 1; l++) {
-                            if (!(k == 0 && l && 0)) {
+                            if (!(k == 0 && l == 0)) {
                                 if (boxArray[i+k][j+l].toggled) {
                                     neighborCount++;
                                 }
