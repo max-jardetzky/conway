@@ -17,6 +17,9 @@ func main() {
 	http.HandleFunc("/conway/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "index.html")
 	})
+
+	fmt.Println("Server up!")
+
 	http.Handle("/conway/static/", http.StripPrefix("/conway/static/", http.FileServer(http.Dir("static"))))
 	if err := srv.ListenAndServe(); err != nil {
 		fmt.Println(err)
