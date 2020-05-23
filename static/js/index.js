@@ -9,6 +9,7 @@ var mouseX = 0;
 var mouseY = 0;
 var oldMouseX = 0;
 var oldMouseY = 0;
+var generation = 0;
 var mouseHeld = false;
 var boxArray = [];
 var numArray = [];
@@ -236,6 +237,19 @@ function setInfo() {
     startWidth = subhead.clientHeight * 0.7;
     start.style.width = startWidth + "px";
     start.style.height = startWidth + "px";
+
+    footer = document.getElementById("footer");
+    footerWidth = window.innerWidth / 10 + boxWidth;
+    footerHeight = footerWidth * 0.30;
+    footer.style.width = footerWidth + "px";
+    footer.style.height = footerHeight + "px";
+    footer.style.left = (window.innerWidth - 1.05   *footerWidth) + "px";
+    footer.style.top = (window.innerHeight - 1.2*footerHeight) + "px";
+    footer.style.fontSize = boxWidth * 0.06 + "vw";
+
+    cont2 = document.getElementById("textContainer2");
+    cont2.style.marginTop = footerHeight/2 - cont2.clientHeight/1.75 + "px";
+
 }
 
 start.onclick = function(e) {
@@ -271,6 +285,7 @@ function cloneNumToBox() {
 }
 
 function update() {
+    generation++;
     cloneBoxToNum();
     for (i = 0; i < boxArray.length; i++) {
         for (j = 0; j < boxArray[i].length; j++) {
@@ -400,4 +415,5 @@ function update() {
     }
     cloneNumToBox();
     requestAnimationFrame(draw);
+    document.getElementById("genNum").innerHTML = generation;
 }
