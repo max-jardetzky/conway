@@ -16,6 +16,7 @@ canvas {
     position: absolute;
     text-align: center;
     padding: 0;
+    display: table-cell;
 }
 
 #info *, footer * {
@@ -47,12 +48,42 @@ canvas {
 
 #start {
     display: inline-block;
-    vertical-align: middle;
+    height: 75%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 15px;
+    margin-top: 0px;
+    -webkit-appearance: none;
+    border-radius: 0;
+    background-color: white;
 }
 
 #footer {
     padding: 0px;
     border: 0px;
+}
+
+#textContainer {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+#textContainer2 {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+#textContainer p {
+    width: fit-content !important;
+    display: inline-block;
+    margin: 0;
 }
 
 #gen {

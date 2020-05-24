@@ -68,7 +68,6 @@ window.onmousedown = function(e) {
 
 window.ontouchstart = function(e) {
     mobile = true;
-    document.getElementsByClassName("background")[0].style.backgroundColor = "red";
     mouseHeld = true;
     drag = false;
     oldMouseX = e.touches[0].clientX - bounds.left;
@@ -110,7 +109,6 @@ window.onmousemove = function(e) {
 }
 
 window.ontouchmove = function(e) {
-    document.getElementsByClassName("background")[0].style.backgroundColor = "blue";
     drag = true;
     mouseX = e.changedTouches[0].clientX - bounds.left;
     mouseY = e.changedTouches[0].clientY - bounds.top;
@@ -176,7 +174,6 @@ window.onmouseup = function(e) {
 }
 
 window.ontouchend = function(e) {
-    document.getElementsByClassName("background")[0].style.backgroundColor = "green";
     mouseHeld = false;
     mouseX = e.changedTouches[0].clientX;
     mouseY = e.changedTouches[0].clientY - bounds.top;
@@ -199,8 +196,12 @@ start.onmouseenter = function(e) {
     onButton = true;
 }
 
-start.onmouseleave = function (e) {
+start.onmouseleave = function(e) {
     onButton = false;
+}
+
+start.ontouchstart = function(e) {
+    onButton = true;
 }
 
 function draw() {
@@ -290,7 +291,11 @@ window.onunload = function() {
 
 function setInfo() {
     info = document.getElementById("info");
-    infoWidth = window.innerWidth / 2 + boxWidth;
+    if (window.innerWidth > window.innerHeight) {
+        infoWidth = window.innerWidth / 2 + boxWidth;
+    } else {
+        infoWidth = window.innerWidth / 1.5 + boxWidth;
+    }
     infoHeight = infoWidth * 0.15;
     info.style.width = infoWidth + "px";
     info.style.height = infoHeight + "px";
@@ -308,28 +313,48 @@ function setInfo() {
     cont.style.top = infoHeight/2 - cont.clientHeight/1.75 + "px";
 
     head = document.getElementById("header");
-    headFontSize = boxWidth * 0.15;
-    head.style.fontSize = headFontSize + "vw";
+    if (window.innerWidth > window.innerHeight) {
+        headFontSize = boxWidth * 0.15;
+        head.style.fontSize = headFontSize + "vw";
+    } else {
+        headFontSize = boxWidth * 0.17;
+        head.style.fontSize = headFontSize + "vw";
+    }
 
     subhead = document.getElementById("subheader");
-    subheadFontSize = boxWidth * 0.08;
-    subhead.style.fontSize = subheadFontSize + "vw";
+    if (window.innerWidth > window.innerHeight) {
+        subheadFontSize = boxWidth * 0.08;
+        subhead.style.fontSize = subheadFontSize + "vw";
+    } else {
+        subheadFontSize = boxWidth * 0.09;
+        subhead.style.fontSize = subheadFontSize + "vw";
+    }
 
-    startWidth = subhead.clientHeight * 0.7;
-    start.style.width = startWidth + "px";
-    start.style.height = startWidth + "px";
+    startFontSize = boxWidth * 0.05;
+    start.style.fontSize = startFontSize + "vw";
 
     footer = document.getElementById("footer");
-    footerWidth = window.innerWidth / 10 + boxWidth;
-    footerHeight = footerWidth * 0.30;
+    var footerWidth;
+    var footerHeight;
+    if (window.innerWidth > window.innerHeight) {
+        footerWidth = window.innerWidth / 7 + boxWidth;
+        footerHeight = footerWidth * 0.25;
+    } else {
+        footerWidth = window.innerWidth / 4.5 + boxWidth;
+        footerHeight = footerWidth * 0.25;
+    }
     footer.style.width = footerWidth + "px";
     footer.style.height = footerHeight + "px";
     footer.style.left = (window.innerWidth - 1.05   *footerWidth) + "px";
     footer.style.top = (window.innerHeight - 1.2*footerHeight) + "px";
-    footer.style.fontSize = boxWidth * 0.06 + "vw";
+    if (window.innerWidth > window.innerHeight) {
+        footer.style.fontSize = boxWidth * 0.07 + "vw";
+    } else {
+        footer.style.fontSize = boxWidth * 0.11 + "vw";
+    }
 
     cont2 = document.getElementById("textContainer2");
-    cont2.style.marginTop = footerHeight/2 - cont2.clientHeight/1.75 + "px";
+    cont2.style.marginTop = footerHeight/2 - cont2.clientHeight/2 + "px";
 
 }
 
