@@ -18,6 +18,7 @@ var onButton = false;
 var started = false;
 var mouseHeld = false;
 var drag = false;
+var mobile = false;
 
 function Box(x,y,width,height) {
     this.x = x;
@@ -65,15 +66,59 @@ window.onmousedown = function(e) {
     drag = false;
 }
 
+window.ontouchstart = function(e) {
+    mobile = true;
+    document.getElementsByClassName("background")[0].style.backgroundColor = "red";
+    mouseHeld = true;
+    drag = false;
+    oldMouseX = e.touches[0].clientX - bounds.left;
+    oldMouseY = e.touches[0].clientY - bounds.top;
+}
+
 window.onmousemove = function(e) {
-    mouseX = e.clientX - bounds.left;
-    mouseY = e.clientY - bounds.top;
+    if (!mobile) {
+        mouseX = e.clientX - bounds.left;
+        mouseY = e.clientY - bounds.top;
+        drag = true;
+    
+        if (mouseHeld && !started) {
+            for (i = 0; i < boxArray.length; i++) {
+                for (j = 0; j < boxArray[i].length; j++) {
+                    if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton) {
+                        selectedBox = boxArray[i][j];
+                        selectedBox.toggled = true;
+                        requestAnimationFrame(draw);
+                        return;
+                    }
+                }
+            }
+        }
+    
+        if (started) {
+            
+            if (mouseHeld) {
+                panX += oldMouseX - mouseX;
+                panY += oldMouseY - mouseY;
+            }
+            
+            oldMouseX = mouseX;
+            oldMouseY = mouseY;
+            
+            requestAnimationFrame(draw);
+        }
+    }
+}
+
+window.ontouchmove = function(e) {
+    document.getElementsByClassName("background")[0].style.backgroundColor = "blue";
     drag = true;
+    mouseX = e.changedTouches[0].clientX - bounds.left;
+    mouseY = e.changedTouches[0].clientY - bounds.top;
 
     if (mouseHeld && !started) {
         for (i = 0; i < boxArray.length; i++) {
             for (j = 0; j < boxArray[i].length; j++) {
-                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton && !started) {
+                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton) {
                     selectedBox = boxArray[i][j];
                     selectedBox.toggled = true;
                     requestAnimationFrame(draw);
@@ -85,20 +130,56 @@ window.onmousemove = function(e) {
 
     if (started) {
         
-        if (mouseHeld) {
+        if (mouseHeld && !(oldMouseX-mouseX > 50 && oldmouseY - mouseY > 50)) {
             panX += oldMouseX - mouseX;
             panY += oldMouseY - mouseY;
         }
-        
+
         oldMouseX = mouseX;
         oldMouseY = mouseY;
-        
+
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         requestAnimationFrame(draw);
     }
 }
 
+document.addEventListener('touchmove', function (event) {
+    if (event.scale !== 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+var lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    var now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 1000 && started) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
 window.onmouseup = function(e) {
     mouseHeld = false;
+    
+    if (!drag) {
+        for (i = 0; i < boxArray.length; i++) {
+            for (j = 0; j < boxArray[i].length; j++) {
+                if (boxArray[i][j].isCollidingWithPoint(mouseX + panX, mouseY + panY) && !onButton && !started && !mobile) {
+                    selectedBox = boxArray[i][j];
+                    selectedBox.toggled = !selectedBox.toggled;
+                    requestAnimationFrame(draw);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+window.ontouchend = function(e) {
+    document.getElementsByClassName("background")[0].style.backgroundColor = "green";
+    mouseHeld = false;
+    mouseX = e.changedTouches[0].clientX;
+    mouseY = e.changedTouches[0].clientY - bounds.top;
     
     if (!drag) {
         for (i = 0; i < boxArray.length; i++) {
