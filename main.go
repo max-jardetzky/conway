@@ -10,7 +10,7 @@ import (
 var srv *http.Server
 
 func main() {
-	port := ":8081"
+	port := ":8082"
 	rand.Seed(time.Now().UnixNano())
 	srv = &http.Server{Addr: port}
 
