@@ -15,7 +15,7 @@ canvas {
 #info, #footer {
     position: absolute;
     text-align: center;
-    padding: 0;
+    padding: 0 0 1.5vw 0;
     display: table-cell;
 }
 
@@ -47,16 +47,9 @@ canvas {
 }
 
 #start {
-    display: inline-block;
-    height: 75%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 15px;
-    margin-top: 0px;
-    -webkit-appearance: none;
-    border-radius: 0;
     background-color: white;
+    padding: 0.75vw 3vw 0.75vw 3vw;
+    bottom: 2px;
 }
 
 #footer {
@@ -69,7 +62,7 @@ canvas {
     vertical-align: middle;
     text-align: center;
     width: fit-content;
-    margin: 0 auto;
+    margin: 0.75vw auto;
 }
 
 #textContainer2 {
